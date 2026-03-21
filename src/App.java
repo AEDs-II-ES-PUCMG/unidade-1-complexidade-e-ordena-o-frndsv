@@ -38,21 +38,36 @@ public class App {
 
 
     public static void main(String[] args) {
+        /*
         int tam = 20;
         Integer[] vetor = gerarVetorObjetos(tam);
 
         BubbleSort<Integer> bolha = new BubbleSort<>();
 
         Integer[] vetorOrdenadoBolha = bolha.ordenar(vetor);
-
+        
         System.out.println("\nVetor ordenado método Bolha:");
         System.out.println("Comparações: " + bolha.getComparacoes());
         System.out.println("Movimentações: " + bolha.getMovimentacoes());
         System.out.println("Tempo de ordenação (ms): " + bolha.getTempoOrdenacao());
-
-        /* TO DO
-        *Fazer a implementacao do restante do main para a ordenacao 
-        *  com os algoritmos InsertionSort e SelectionSort
         */
+
+        // Teste para o BUBBLE SORT COM OS TAMANHOS MÉDIO
+
+        int tam;
+        Integer[] vetor;
+        BubbleSort<Integer> bolha;
+        Integer[] vetorOrdenadoBolha;
+     
+        tam = tamanhosTesteMedio[4];
+        vetor = gerarVetorObjetos(tam);
+        bolha = new BubbleSort<>();
+        vetorOrdenadoBolha = bolha.ordenar(vetor);
+
+        System.out.println("\nVetor ordenado método Bolha (TAMANHO MEDIO 1):");
+        System.out.println("Comparações: " + bolha.getComparacoes());
+        System.out.println("Movimentações: " + bolha.getMovimentacoes());
+        System.out.println("Tempo de ordenação (ms): " + bolha.getTempoOrdenacao());
+       
     }
 }
