@@ -38,6 +38,8 @@ public class AppOficina {
     static int quantProdutos = 0;
     static String nomeArquivoDados = "produtos.txt";
     static IOrdenador<Produto> ordenador;
+    static Produto[] produtosOrdenadosCodigo;
+    static Produto[] produtosOrdenadosDescricao;
 
     // #region utilidades
     static Scanner teclado;
@@ -125,18 +127,67 @@ public class AppOficina {
         return dadosCarregados;
     }
 
+    static Produto buscaBinariaCodigo(int codigo) {
+        int inicio = 0;
+        int fim = quantProdutos - 1;
+
+        while (inicio <= fim) {
+            int meio = (inicio + fim) / 2;
+            int codigoMeio = produtosOrdenadosCodigo[meio].hashCode();
+
+            if (codigoMeio == codigo)
+                return produtosOrdenadosCodigo[meio];
+
+            else if (codigoMeio < codigo)
+                inicio = meio + 1;
+
+            else
+                fim = meio - 1;
+        }
+
+        return null;
+    }
+
+    static Produto buscaBinariaDescricao(String descricao) {
+        int inicio = 0;
+        int fim = quantProdutos - 1;
+
+        while (inicio <= fim) {
+            int meio = (inicio + fim) / 2;
+
+            int comparacao = produtosOrdenadosDescricao[meio].descricao
+                    .compareToIgnoreCase(descricao);
+
+            if (comparacao == 0)
+                return produtosOrdenadosDescricao[meio];
+
+            else if (comparacao < 0)
+                inicio = meio + 1;
+
+            else
+                fim = meio - 1;
+        }
+
+        return null;
+    }
+
 
     static Produto localizarProduto() {
         cabecalho();
         System.out.println("Localizando um produto");
-        int numero = lerNumero("Digite o identificador do produto", Integer.class);
-        Produto localizado = null;
-        
-        for (int i = 0; i < quantProdutos && localizado == null; i++) {
-            if (produtos[i].hashCode() == numero)
-                localizado = produtos[i];
+        int opcaoCriterio = exibirMenuComparadores();
+
+        switch (opcaoCriterio) {
+            case 1 -> {
+                System.out.print("Digite a descrição do produto que voce deseja buscar: "); 
+                String descricaoBusca = teclado.nextLine();
+                return buscaBinariaDescricao(descricaoBusca);  
+            }
+            default -> {
+                int codigoBusca = lerNumero("Digite o codigo do produto que voce deseja buscar: ", Integer.class);
+                return buscaBinariaCodigo(codigoBusca);
+            }
         }
-        return localizado;
     }
 
     private static void mostrarProduto(Produto produto) {
@@ -211,6 +262,15 @@ public class AppOficina {
         
         produtos = carregarProdutos(nomeArquivoDados);
         embaralharProdutos();
+
+        produtosOrdenadosCodigo = Arrays.copyOf(produtos, quantProdutos);
+        produtosOrdenadosCodigo = new Mergesort<Produto>()
+                .ordenar(produtosOrdenadosCodigo, new ComparadorPorCodigo());
+
+
+        produtosOrdenadosDescricao = Arrays.copyOf(produtos, quantProdutos);
+        produtosOrdenadosDescricao = new Mergesort<Produto>()
+                .ordenar(produtosOrdenadosDescricao, new ComparadorPorDescricao());
 
         int opcao = -1;
         
