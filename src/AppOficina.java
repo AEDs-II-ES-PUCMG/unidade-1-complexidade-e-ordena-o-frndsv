@@ -92,6 +92,9 @@ public class AppOficina {
         System.out.println("2 - Inserção");
         System.out.println("3 - Seleção");
         System.out.println("4 - Mergesort");
+        System.out.println("5 - Heapsort");
+        System.out.println("6 - Quicksort");
+
         System.out.println("0 - Finalizar");
        
         return lerNumero("Digite sua opção", Integer.class);
@@ -101,6 +104,7 @@ public class AppOficina {
         cabecalho();
         System.out.println("1 - Padrão");
         System.out.println("2 - Por código");
+        System.out.println("3 - Por preco de venda");
         
         return lerNumero("Digite sua opção", Integer.class);
     }
@@ -224,13 +228,17 @@ public class AppOficina {
             case 2 -> ordenador = new InsertSort<>();
             case 3 -> ordenador = new SelectionSort<>();
             case 4 -> ordenador = new Mergesort<>();
+            case 5 -> ordenador = new Heapsort<>();
+            case 6 -> ordenador = new Quicksort<>();
         }
 
         ComparadorPorCodigo comparador_codigo = new ComparadorPorCodigo();
         ComparadorPorDescricao comparador_descricao = new ComparadorPorDescricao();
+        ComparadorPorPreco comparador_preco = new ComparadorPorPreco();
         
         switch (opcaoCriterio) {
             case 2 -> produtos = ordenador.ordenar(produtos, comparador_codigo);
+            case 3 -> produtos = ordenador.ordenar(produtos, comparador_preco);
             default -> produtos = ordenador.ordenar(produtos, comparador_descricao);
         }
 
