@@ -1,4 +1,5 @@
 
+import java.text.NumberFormat;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.time.temporal.ChronoUnit;
@@ -96,6 +97,10 @@ public class ProdutoPerecivel extends Produto{
         return String.format("2;%s;%.2f;%.2f;%s", 
                 descricao, precoCusto, margemLucro, dataFormatada);
 
+    }
+
+    public LocalDate getDataDeValidade() {
+        return dataDeValidade;
     }        
     
 }
